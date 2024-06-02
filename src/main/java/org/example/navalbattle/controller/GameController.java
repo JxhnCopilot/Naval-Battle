@@ -1,14 +1,16 @@
 package org.example.navalbattle.controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-
-
-import java.io.IOException;
+import org.example.navalbattle.model.Boats;
+import org.example.navalbattle.model.CreatedBoard;
+import org.example.navalbattle.model.Position;
 
 public class GameController {
     @FXML
@@ -16,34 +18,175 @@ public class GameController {
     @FXML
     private GridPane shootGridpane;
     @FXML
-    private GridPane positionGridPane1;
-    @FXML
     private Button startButton;
     @FXML
+    private TextField rowTextField;
+    @FXML
+    private TextField colTextField;
+    @FXML
+    private Button buttonPortaAviones;
+    @FXML
+    private Label labelPortaAviones;
+    @FXML
+    private Button buttonSubmarinos;
+    @FXML
+    private Label labelSubmarinos;
+    @FXML
+    private Button buttonDestructores;
+    @FXML
+    private Label labelDestructores;
+    @FXML
+    private Button buttonOrientation;
+    @FXML
+    private Button buttonFragatas;
+    @FXML
+    private Label labelFragatas;
+    @FXML
     public void initialize() {
-        addEvent();
     }
-    public void onHandleButtonPlay(ActionEvent event) throws IOException {
-        positionGridPane.setVisible(true);
+    public void onHandleButtonPlay(ActionEvent event){
         shootGridpane.setVisible(true);
-        positionGridPane1.setVisible(false);
         startButton.setVisible(false);
+        new CreatedBoard().addEvent(shootGridpane);
     }
-    private void handleMouseClick(MouseEvent event, int row, int col) {
+    public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Clicked on cell: (" + row + ", " + col + ")");
-        // Aquí puedes agregar la lógica adicional que necesitas al hacer clic en una celda.
     }
-    public void addEvent() {
-        for (int row = 0; row <= 9; row++) {
-            for (int col = 0; col <= 9; col++) {
-                Pane pane = new Pane();
-                final int r = row;
-                final int c = col;
-                pane.setOnMouseClicked(event -> handleMouseClick(event, r, c));
-                pane.setStyle("-fx-background-color: blue;" +
-                                "-fx-border-color: black;"+
-                        "-fx-border-width: 2px");
-                shootGridpane.add(pane, col, row);
+    public int getRows(){
+        return Integer.parseInt(rowTextField.getText());
+    }
+    public int getCols(){
+        return Integer.parseInt(colTextField.getText());
+    }
+    boolean isHorizontal = false;
+    public void onHandleButtonOrientation(){
+        isHorizontal = !isHorizontal;
+        if(!isHorizontal){
+            buttonOrientation.setText("Vertical");
+        }else{
+            buttonOrientation.setText("Horizontal");
+        }
+    }
+    Position position = new Position(10,10);
+    public void onHandleButtonPortaAviones(Event event) {
+        if(isHorizontal){
+            if(getCols() <7) {
+                position.colocarBarco(getRows(), getCols(), isHorizontal, 4);
+                new Boats(getRows(), getCols(), 4, isHorizontal).addToGrid(positionGridPane);
+                rowTextField.clear();
+                colTextField.clear();
+                buttonPortaAviones.setDisable(true);
+                labelPortaAviones.setText("0");
+            }else{
+                //Alertas
+            }
+        } else if (!isHorizontal) {
+            if(getRows()<7) {
+                position.colocarBarco(getRows(), getCols(), isHorizontal, 4);
+                new Boats(getRows(), getCols(), 4, isHorizontal).addToGrid(positionGridPane);
+                rowTextField.clear();
+                colTextField.clear();
+                buttonPortaAviones.setDisable(true);
+                labelPortaAviones.setText("0");
+            }else{
+                //Alertas
+            }
+        }
+    }
+
+    private int submarinos=2;
+    public void onHandleButtonSubmarinos(Event event) {
+        if(isHorizontal){
+            if(getCols() <8) {
+                position.colocarBarco(getRows(),getCols(),isHorizontal,3);
+                new Boats(getRows(),getCols(),3,isHorizontal).addToGrid(positionGridPane);
+                submarinos = submarinos-1;
+                rowTextField.clear();
+                colTextField.clear();
+                if(submarinos==0){
+                    buttonSubmarinos.setDisable(true);
+                }
+                labelSubmarinos.setText(String.valueOf(submarinos));
+            }else{
+                //Alertas
+            }
+        } else if (!isHorizontal) {
+            if(getRows()<8) {
+                position.colocarBarco(getRows(),getCols(),isHorizontal,3);
+                new Boats(getRows(),getCols(),3,isHorizontal).addToGrid(positionGridPane);
+                submarinos = submarinos-1;
+                rowTextField.clear();
+                colTextField.clear();
+                if(submarinos==0){
+                    buttonSubmarinos.setDisable(true);
+                }
+                labelSubmarinos.setText(String.valueOf(submarinos));
+            }else{
+                //Alertas
+            }
+        }
+    }
+    private int destructores=3;
+    public void onHandleButtonDestrutores(Event event) {
+        if(isHorizontal){
+            if(getCols() <9) {
+                position.colocarBarco(getRows(),getCols(),isHorizontal,2);
+                new Boats(getRows(),getCols(),2,isHorizontal).addToGrid(positionGridPane);
+                destructores = destructores-1;
+                rowTextField.clear();
+                colTextField.clear();
+                if(destructores==0){
+                    buttonDestructores.setDisable(true);
+                }
+                labelDestructores.setText(String.valueOf(destructores));
+            }else{
+                //Alertas
+            }
+        } else if (!isHorizontal) {
+            if(getRows()<9) {
+                position.colocarBarco(getRows(),getCols(),isHorizontal,2);
+                new Boats(getRows(),getCols(),2,isHorizontal).addToGrid(positionGridPane);
+                destructores = destructores-1;
+                rowTextField.clear();
+                colTextField.clear();
+                if(destructores==0){
+                    buttonDestructores.setDisable(true);
+                }
+                labelDestructores.setText(String.valueOf(destructores));
+            }else{
+                //Alertas
+            }
+        }
+    }
+    private int fragatas=4;
+    public void onHandleButtonFragatas(Event event) {
+        if(isHorizontal){
+            if(getCols() <10) {
+                position.colocarBarco(getRows(),getCols(),isHorizontal,1);
+                new Boats(getRows(),getCols(),1,isHorizontal).addToGrid(positionGridPane);
+                fragatas-=1;
+                rowTextField.clear();
+                colTextField.clear();
+                if(fragatas==0){
+                    buttonFragatas.setDisable(true);
+                }
+                labelFragatas.setText(String.valueOf(fragatas));
+            }else{
+                //Alertas
+            }
+        } else if (!isHorizontal) {
+            if(getRows()<10) {
+                position.colocarBarco(getRows(),getCols(),isHorizontal,1);
+                new Boats(getRows(),getCols(),1,isHorizontal).addToGrid(positionGridPane);
+                fragatas -=1;
+                rowTextField.clear();
+                colTextField.clear();
+                if(fragatas==0){
+                    buttonFragatas.setDisable(true);
+                }
+                labelFragatas.setText(String.valueOf(fragatas));
+            }else{
+                //Alertas
             }
         }
     }
