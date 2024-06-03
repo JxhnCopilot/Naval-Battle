@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import org.example.navalbattle.model.Boats;
 import org.example.navalbattle.model.CreatedBoard;
 import org.example.navalbattle.model.Position;
+import org.example.navalbattle.view.Alerts.AlertBox;
 
 public class GameController {
     @FXML
@@ -78,7 +79,10 @@ public class GameController {
                 buttonPortaAviones.setDisable(true);
                 labelPortaAviones.setText("0");
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         } else if (!isHorizontal) {
             if(getRows()<7) {
@@ -89,7 +93,10 @@ public class GameController {
                 buttonPortaAviones.setDisable(true);
                 labelPortaAviones.setText("0");
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         }
     }
@@ -108,7 +115,10 @@ public class GameController {
                 }
                 labelSubmarinos.setText(String.valueOf(submarinos));
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         } else if (!isHorizontal) {
             if(getRows()<8) {
@@ -122,7 +132,10 @@ public class GameController {
                 }
                 labelSubmarinos.setText(String.valueOf(submarinos));
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         }
     }
@@ -140,7 +153,10 @@ public class GameController {
                 }
                 labelDestructores.setText(String.valueOf(destructores));
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         } else if (!isHorizontal) {
             if(getRows()<9) {
@@ -154,7 +170,10 @@ public class GameController {
                 }
                 labelDestructores.setText(String.valueOf(destructores));
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         }
     }
@@ -172,7 +191,10 @@ public class GameController {
                 }
                 labelFragatas.setText(String.valueOf(fragatas));
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         } else if (!isHorizontal) {
             if(getRows()<10) {
@@ -186,7 +208,10 @@ public class GameController {
                 }
                 labelFragatas.setText(String.valueOf(fragatas));
             }else{
-                //Alertas
+                String tittle = "Error";
+                String header = "El tamaño excede el tablero";
+                String content = "Por favor ingrese una posicion que no salga del tablero";
+                new AlertBox().showMessage(tittle, header, content);
             }
         }
     }
