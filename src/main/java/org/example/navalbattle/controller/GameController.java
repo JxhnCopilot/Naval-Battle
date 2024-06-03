@@ -15,33 +15,13 @@ import org.example.navalbattle.view.Alerts.AlertBox;
 
 public class GameController {
     @FXML
-    private GridPane positionGridPane;
+    private GridPane positionGridPane,shootGridpane;
     @FXML
-    private GridPane shootGridpane;
+    private Button startButton, buttonPortaAviones,buttonSubmarinos,buttonDestructores,buttonOrientation,buttonFragatas;
     @FXML
-    private Button startButton;
+    private TextField rowTextField,colTextField;
     @FXML
-    private TextField rowTextField;
-    @FXML
-    private TextField colTextField;
-    @FXML
-    private Button buttonPortaAviones;
-    @FXML
-    private Label labelPortaAviones;
-    @FXML
-    private Button buttonSubmarinos;
-    @FXML
-    private Label labelSubmarinos;
-    @FXML
-    private Button buttonDestructores;
-    @FXML
-    private Label labelDestructores;
-    @FXML
-    private Button buttonOrientation;
-    @FXML
-    private Button buttonFragatas;
-    @FXML
-    private Label labelFragatas;
+    private Label labelPortaAviones, labelSubmarinos,labelDestructores,labelFragatas;
     @FXML
     public void initialize() {
     }
