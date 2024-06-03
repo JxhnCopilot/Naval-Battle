@@ -48,6 +48,17 @@ public class GameController {
     public void onHandleButtonPlay(ActionEvent event){
         shootGridpane.setVisible(true);
         startButton.setVisible(false);
+        buttonFragatas.setVisible(false);
+        buttonDestructores.setVisible(false);
+        buttonSubmarinos.setVisible(false);
+        buttonPortaAviones.setVisible(false);
+        rowTextField.setVisible(false);
+        colTextField.setVisible(false);
+        labelDestructores.setVisible(false);
+        labelFragatas.setVisible(false);
+        labelPortaAviones.setVisible(false);
+        labelSubmarinos.setVisible(false);
+        buttonOrientation.setVisible(false);
         new CreatedBoard().addEvent(shootGridpane);
     }
     public void handleMouseClick(MouseEvent event, int row, int col) {
