@@ -47,16 +47,10 @@ public class GameController {
         labelRow.setVisible(false);
         labelCol.setVisible(false);
         new CreatedBoard().addEvent(shootGridpane);
-        for(int i=0;i<10;i++){
-            for(int j=0;j<10;j++){
-                System.out.println(i+","+j);
-                System.out.println(position.obtenerEstadoCasilla(i,j));
-            }
-        }
+        imprimirMatriz(position.getMatriz());
     }
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
         BoardBotStage.getInstance();
-        BoardBotStage.deleteInstance();
     }
     public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Mouse clicked at row: " + row + " col: " + col);
@@ -152,5 +146,13 @@ public class GameController {
     }
     public void onHandleButtonFragatas(Event event) {
         addBoat(FRAGATAS_SIZE,"fragatas");
+    }
+    public void imprimirMatriz(int[][] matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                System.out.print(matriz[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }

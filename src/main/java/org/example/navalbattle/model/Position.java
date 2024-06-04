@@ -47,6 +47,9 @@ public class Position {
         // Obtener el estado de una casilla en el tablero (agua o barco)
         return position[fila][columna];
     }
+    public int[][] getMatriz(){
+        return position;
+    }
     public void setEstadoCasilla(int fila, int columna, int estado) {
         // Verificar que los índices de fila y columna son válidos
         if (fila >= 0 && fila < position.length && columna >= 0 && columna < position[0].length) {
