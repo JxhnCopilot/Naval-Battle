@@ -22,13 +22,42 @@ public class Position {
     public boolean colocarBarco(int fila, int columna, boolean isHorizontal,int length) {
         if(isHorizontal){
             int positionFinal=columna+length;
-            for (int i = columna; i < positionFinal; i++) {
-                if (position[fila][i] == 1) {
-                    return false; // La posición ya está ocupada
+            if (length==4){
+                for (int i = columna; i < positionFinal; i++) {
+                    if (position[fila][i] == 1) {
+                        return false; // La posición ya está ocupada
+                    }
                 }
-            }
-            for (int i = columna; i < positionFinal; i++) {
-                position[fila][i] = 1;
+                for (int i = columna; i < positionFinal; i++) {
+                    position[fila][i] = 1;
+                }
+            } else if (length==3) {
+                for (int i = columna; i < positionFinal; i++) {
+                    if (position[fila][i] == 1) {
+                        return false; // La posición ya está ocupada
+                    }
+                }
+                for (int i = columna; i < positionFinal; i++) {
+                    position[fila][i] = 2;
+                }
+            } else if (length==2) {
+                for (int i = columna; i < positionFinal; i++) {
+                    if (position[fila][i] == 1) {
+                        return false; // La posición ya está ocupada
+                    }
+                }
+                for (int i = columna; i < positionFinal; i++) {
+                    position[fila][i] = 3;
+                }
+            } else if (length==1){
+                for (int i = columna; i < positionFinal; i++) {
+                    if (position[fila][i] == 1) {
+                        return false; // La posición ya está ocupada
+                    }
+                }
+                for (int i = columna; i < positionFinal; i++) {
+                    position[fila][i] = 4;
+                }
             }
         } else {
             int positionFinal=fila+length;
