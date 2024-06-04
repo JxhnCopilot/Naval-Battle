@@ -8,17 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 import org.example.navalbattle.model.Boats;
-import org.example.navalbattle.model.CreatedBoard;
 import org.example.navalbattle.model.Position;
 import org.example.navalbattle.view.Alerts.AlertBox;
 import org.example.navalbattle.view.BoardBotStage;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Random;
 
 public class GameController {
     @FXML
@@ -47,16 +44,16 @@ public class GameController {
         buttonOrientation.setVisible(false);
         labelRow.setVisible(false);
         labelCol.setVisible(false);
-        new CreatedBoard().addEvent(shootGridpane);
         imprimirMatriz(position.getMatriz());
+        addEvent(shootGridpane);
     }
-
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
         BoardBotStage.getInstance();
     }
 
     public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Mouse clicked at row: " + row + " col: " + col);
+        imprimirMatriz(position.getMatriz());
     }
 
     public int getRows() {
@@ -161,6 +158,20 @@ public class GameController {
                 System.out.print(matriz[i][j] + " ");
             }
             System.out.println();
+        }
+    }
+    public void addEvent(GridPane gridPane) {
+        for (int row = 0; row <= 9; row++) {
+            for (int col = 0; col <= 9; col++) {
+                Pane pane= new Pane();
+                final int r = row;
+                final int c = col;
+                pane.setOnMouseClicked(event -> handleMouseClick(event, r, c));
+                pane.setStyle("-fx-background-color: blue;" +
+                        "-fx-border-color: black;"+
+                        "-fx-border-width: 2px");
+                gridPane.add(pane, col, row);
+            }
         }
     }
 }
