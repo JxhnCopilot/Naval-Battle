@@ -82,5 +82,6 @@
       <Label fx:id="labelDestructores" layoutX="804.0" layoutY="355.0" text="Barcos restantes: 3" />
       <Label fx:id="labelFragatas" layoutX="804.0" layoutY="395.0" text="Barcos restantes: 4" />
       <Button fx:id="buttonOrientation" layoutX="844.0" layoutY="208.0" mnemonicParsing="false" onAction="#onHandleButtonOrientation" text="Vertical" />
+      <Button fx:id="buttonEnemyBoard" layoutX="687.0" layoutY="86.0" mnemonicParsing="false" onAction="#onHandleButtonEnemyBoard" text="Tabldero Enemigo " />
    </children>
 </AnchorPane>

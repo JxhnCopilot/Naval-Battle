@@ -14,7 +14,9 @@ import org.example.navalbattle.model.Boats;
 import org.example.navalbattle.model.CreatedBoard;
 import org.example.navalbattle.model.Position;
 import org.example.navalbattle.view.Alerts.AlertBox;
+import org.example.navalbattle.view.BoardBotStage;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
@@ -22,7 +24,7 @@ public class GameController {
     @FXML
     private GridPane positionGridPane,shootGridpane;
     @FXML
-    private Button startButton, buttonPortaAviones,buttonSubmarinos,buttonDestructores,buttonOrientation,buttonFragatas;
+    private Button startButton, buttonPortaAviones,buttonSubmarinos,buttonDestructores,buttonOrientation,buttonFragatas,buttonEnemyBoard;
     @FXML
     private TextField rowTextField,colTextField;
     @FXML
@@ -51,6 +53,10 @@ public class GameController {
                 System.out.println(position.obtenerEstadoCasilla(i,j));
             }
         }
+    }
+    public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
+        BoardBotStage.getInstance();
+        BoardBotStage.deleteInstance();
     }
     public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Mouse clicked at row: " + row + " col: " + col);
