@@ -63,7 +63,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <Button fx:id="startButton" layoutX="489.0" layoutY="538.0" mnemonicParsing="false" onAction="#onHandleButtonPlay" text="Start" />
+      <Button fx:id="startButton" layoutX="489.0" layoutY="538.0" mnemonicParsing="false" onAction="#onHandleButtonStart" text="Start" />
       <Label layoutX="452.0" layoutY="34.0" text="Naval Battle">
          <font>
             <Font size="18.0" />
@@ -75,12 +75,12 @@
       <Button fx:id="buttonFragatas" layoutX="717.0" layoutY="391.0" mnemonicParsing="false" onAction="#onHandleButtonFragatas" text="Fragatas" />
       <TextField fx:id="rowTextField" layoutX="670.0" layoutY="186.0" />
       <TextField fx:id="colTextField" layoutX="672.0" layoutY="237.0" />
-      <Label layoutX="736.0" layoutY="163.0" text="Fila" />
-      <Label layoutX="723.0" layoutY="212.0" text="Columna" />
-      <Label fx:id="labelPortaAviones" layoutX="804.0" layoutY="282.0" text="1" />
-      <Label fx:id="labelSubmarinos" layoutX="804.0" layoutY="320.0" text="2" />
-      <Label fx:id="labelDestructores" layoutX="804.0" layoutY="355.0" text="3" />
-      <Label fx:id="labelFragatas" layoutX="804.0" layoutY="395.0" text="4" />
+      <Label fx:id="labelRow" layoutX="736.0" layoutY="163.0" text="Fila" />
+      <Label fx:id="labelCol" layoutX="723.0" layoutY="212.0" text="Columna" />
+      <Label fx:id="labelPortaAviones" layoutX="804.0" layoutY="282.0" text="Barcos restantes: 1" />
+      <Label fx:id="labelSubmarinos" layoutX="804.0" layoutY="320.0" text="Barcos restantes: 2" />
+      <Label fx:id="labelDestructores" layoutX="804.0" layoutY="355.0" text="Barcos restantes: 3" />
+      <Label fx:id="labelFragatas" layoutX="804.0" layoutY="395.0" text="Barcos restantes: 4" />
       <Button fx:id="buttonOrientation" layoutX="844.0" layoutY="208.0" mnemonicParsing="false" onAction="#onHandleButtonOrientation" text="Vertical" />
    </children>
 </AnchorPane>

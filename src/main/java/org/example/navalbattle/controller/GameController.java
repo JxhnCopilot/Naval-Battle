@@ -8,10 +8,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import org.example.navalbattle.model.Boats;
 import org.example.navalbattle.model.CreatedBoard;
 import org.example.navalbattle.model.Position;
 import org.example.navalbattle.view.Alerts.AlertBox;
+
+import java.util.Objects;
+import java.util.Random;
 
 public class GameController {
     @FXML
@@ -21,11 +26,9 @@ public class GameController {
     @FXML
     private TextField rowTextField,colTextField;
     @FXML
-    private Label labelPortaAviones, labelSubmarinos,labelDestructores,labelFragatas;
-    @FXML
-    public void initialize() {
-    }
-    public void onHandleButtonPlay(ActionEvent event){
+    private Label labelPortaAviones, labelSubmarinos,labelDestructores,labelFragatas,labelRow,labelCol;
+    Position position = new Position(10,10);
+    public void onHandleButtonStart(ActionEvent event){
         shootGridpane.setVisible(true);
         startButton.setVisible(false);
         buttonFragatas.setVisible(false);
@@ -39,10 +42,21 @@ public class GameController {
         labelPortaAviones.setVisible(false);
         labelSubmarinos.setVisible(false);
         buttonOrientation.setVisible(false);
+        labelRow.setVisible(false);
+        labelCol.setVisible(false);
         new CreatedBoard().addEvent(shootGridpane);
+        for(int i=0;i<10;i++){
+            for(int j=0;j<10;j++){
+                System.out.println(i+","+j);
+                System.out.println(position.obtenerEstadoCasilla(i,j));
+            }
+        }
     }
     public void handleMouseClick(MouseEvent event, int row, int col) {
-        System.out.println("Clicked on cell: (" + row + ", " + col + ")");
+        System.out.println("Mouse clicked at row: " + row + " col: " + col);
+        int cellState = position.obtenerEstadoCasilla(row, col);
+        System.out.println("Cell state: " + cellState);
+        computerPlay();
     }
     public int getRows(){
         return Integer.parseInt(rowTextField.getText());
@@ -59,151 +73,99 @@ public class GameController {
             buttonOrientation.setText("Horizontal");
         }
     }
-    Position position = new Position(10,10);
+    private static final int MAX_BOARD_SIZE = 10;
+    private static final int PORTAAVIONES_SIZE = 4;
+    private static final int SUBMARINOS_SIZE = 3;
+    private static final int DESTRUCTORES_SIZE = 2;
+    private static final int FRAGATAS_SIZE = 1;
+    private int portavionesCount=1;
+    private int submarinosCount=2;
+    private int destructoresCount=3;
+    private int fragatasCount=4;
+    public void addBoat(int boatSize,String button){
+        if(isValidPosition(boatSize)){
+            if (position.colocarBarco(getRows(), getCols(), isHorizontal, boatSize)) {
+                position.colocarBarco(getRows(), getCols(), isHorizontal, boatSize);
+                int positionFinal= getCols() + boatSize;
+                new Boats(getRows(), getCols(), boatSize, isHorizontal).addToGrid(positionGridPane);
+                //rowTextField.clear();
+                colTextField.clear();
+                if (Objects.equals(button, "portaAviones")) {
+                    portavionesCount -= 1;
+                    labelPortaAviones.setText("Portaaviones: " + portavionesCount);
+                    if (portavionesCount == 0) {
+                        buttonPortaAviones.setDisable(true);
+                    }
+                } else if (Objects.equals(button, "submarinos")) {
+                    submarinosCount -= 1;
+                    labelSubmarinos.setText("Submarinos: " + submarinosCount);
+                    if (submarinosCount == 0) {
+                        buttonSubmarinos.setDisable(true);
+                    }
+                } else if (Objects.equals(button, "destructores")) {
+                    destructoresCount -= 1;
+                    labelDestructores.setText("Destructores: " + destructoresCount);
+                    if (destructoresCount == 0) {
+                        buttonDestructores.setDisable(true);
+                    }
+                } else if (Objects.equals(button, "fragatas")) {
+                    fragatasCount -= 1;
+                    labelFragatas.setText("Fragatas: " + fragatasCount);
+                    if (fragatasCount == 0) {
+                        buttonFragatas.setDisable(true);
+                    }
+                }
+                if (portavionesCount == 0 && submarinosCount == 0 && destructoresCount == 0 && fragatasCount == 0) {
+                    //startButton.setDisable(false);
+                }
+            }else {
+                String tittle = "Error";
+                String header = "La posición ya está ocupada";
+                String content = "Por favor ingrese una posición que no esté ocupada por otro barco";
+                new AlertBox().showMessage(tittle, header, content);
+            }
+        } else {
+            String tittle = "Error";
+            String header = "El tamaño excede el tablero";
+            String content = "Por favor ingrese una posicion que no salga del tablero";
+            new AlertBox().showMessage(tittle, header, content);
+        }
+    }
+    public boolean isValidPosition(int boatSize){
+        if(isHorizontal){
+            return getCols() < MAX_BOARD_SIZE - boatSize + 1;
+        } else {
+            return getRows() < MAX_BOARD_SIZE - boatSize + 1;
+        }
+    }
     public void onHandleButtonPortaAviones(Event event) {
-        if(isHorizontal){
-            if(getCols() <7) {
-                position.colocarBarco(getRows(), getCols(), isHorizontal, 4);
-                new Boats(getRows(), getCols(), 4, isHorizontal).addToGrid(positionGridPane);
-                rowTextField.clear();
-                colTextField.clear();
-                buttonPortaAviones.setDisable(true);
-                labelPortaAviones.setText("0");
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
-        } else if (!isHorizontal) {
-            if(getRows()<7) {
-                position.colocarBarco(getRows(), getCols(), isHorizontal, 4);
-                new Boats(getRows(), getCols(), 4, isHorizontal).addToGrid(positionGridPane);
-                rowTextField.clear();
-                colTextField.clear();
-                buttonPortaAviones.setDisable(true);
-                labelPortaAviones.setText("0");
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
-        }
+        addBoat(PORTAAVIONES_SIZE,"portaAviones");
     }
-
-    private int submarinos=2;
     public void onHandleButtonSubmarinos(Event event) {
-        if(isHorizontal){
-            if(getCols() <8) {
-                position.colocarBarco(getRows(),getCols(),isHorizontal,3);
-                new Boats(getRows(),getCols(),3,isHorizontal).addToGrid(positionGridPane);
-                submarinos = submarinos-1;
-                rowTextField.clear();
-                colTextField.clear();
-                if(submarinos==0){
-                    buttonSubmarinos.setDisable(true);
-                }
-                labelSubmarinos.setText(String.valueOf(submarinos));
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
-        } else if (!isHorizontal) {
-            if(getRows()<8) {
-                position.colocarBarco(getRows(),getCols(),isHorizontal,3);
-                new Boats(getRows(),getCols(),3,isHorizontal).addToGrid(positionGridPane);
-                submarinos = submarinos-1;
-                rowTextField.clear();
-                colTextField.clear();
-                if(submarinos==0){
-                    buttonSubmarinos.setDisable(true);
-                }
-                labelSubmarinos.setText(String.valueOf(submarinos));
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
-        }
+        addBoat(SUBMARINOS_SIZE,"submarinos");
     }
-    private int destructores=3;
     public void onHandleButtonDestrutores(Event event) {
-        if(isHorizontal){
-            if(getCols() <9) {
-                position.colocarBarco(getRows(),getCols(),isHorizontal,2);
-                new Boats(getRows(),getCols(),2,isHorizontal).addToGrid(positionGridPane);
-                destructores = destructores-1;
-                rowTextField.clear();
-                colTextField.clear();
-                if(destructores==0){
-                    buttonDestructores.setDisable(true);
-                }
-                labelDestructores.setText(String.valueOf(destructores));
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
-        } else if (!isHorizontal) {
-            if(getRows()<9) {
-                position.colocarBarco(getRows(),getCols(),isHorizontal,2);
-                new Boats(getRows(),getCols(),2,isHorizontal).addToGrid(positionGridPane);
-                destructores = destructores-1;
-                rowTextField.clear();
-                colTextField.clear();
-                if(destructores==0){
-                    buttonDestructores.setDisable(true);
-                }
-                labelDestructores.setText(String.valueOf(destructores));
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
-        }
+        addBoat(DESTRUCTORES_SIZE,"destructores");
     }
-    private int fragatas=4;
     public void onHandleButtonFragatas(Event event) {
-        if(isHorizontal){
-            if(getCols() <10) {
-                position.colocarBarco(getRows(),getCols(),isHorizontal,1);
-                new Boats(getRows(),getCols(),1,isHorizontal).addToGrid(positionGridPane);
-                fragatas-=1;
-                rowTextField.clear();
-                colTextField.clear();
-                if(fragatas==0){
-                    buttonFragatas.setDisable(true);
-                }
-                labelFragatas.setText(String.valueOf(fragatas));
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
-        } else if (!isHorizontal) {
-            if(getRows()<10) {
-                position.colocarBarco(getRows(),getCols(),isHorizontal,1);
-                new Boats(getRows(),getCols(),1,isHorizontal).addToGrid(positionGridPane);
-                fragatas -=1;
-                rowTextField.clear();
-                colTextField.clear();
-                if(fragatas==0){
-                    buttonFragatas.setDisable(true);
-                }
-                labelFragatas.setText(String.valueOf(fragatas));
-            }else{
-                String tittle = "Error";
-                String header = "El tamaño excede el tablero";
-                String content = "Por favor ingrese una posicion que no salga del tablero";
-                new AlertBox().showMessage(tittle, header, content);
-            }
+        addBoat(FRAGATAS_SIZE,"fragatas");
+    }
+    public void computerPlay() {
+        Random random = new Random();
+        int row, col;
+        row = random.nextInt(MAX_BOARD_SIZE);
+        col = random.nextInt(MAX_BOARD_SIZE);
+        System.out.println("Computer plays at row: " + row + " col: " + col);
+        int cellState = position.obtenerEstadoCasilla(row, col);
+        System.out.println("Cell state: " + cellState);
+        if (cellState == 1) {
+            System.out.println("Computer hit a ship");
+            // Aquí podrías cambiar el estado de la celda a un valor diferente para representar un barco golpeado
+        } else if (cellState == 0) {
+            System.out.println("Computer missed");
+            // Aquí podrías cambiar el estado de la celda a un valor diferente para representar un disparo fallido
+        } else {
+            // Aquí podrías manejar otros estados de la celda, como un disparo que ya ha sido hecho
         }
     }
 }
