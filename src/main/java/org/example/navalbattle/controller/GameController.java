@@ -22,15 +22,16 @@ import java.util.Random;
 
 public class GameController {
     @FXML
-    private GridPane positionGridPane,shootGridpane;
+    private GridPane positionGridPane, shootGridpane;
     @FXML
-    private Button startButton, buttonPortaAviones,buttonSubmarinos,buttonDestructores,buttonOrientation,buttonFragatas,buttonEnemyBoard;
+    private Button startButton, buttonPortaAviones, buttonSubmarinos, buttonDestructores, buttonOrientation, buttonFragatas, buttonEnemyBoard;
     @FXML
-    private TextField rowTextField,colTextField;
+    private TextField rowTextField, colTextField;
     @FXML
-    private Label labelPortaAviones, labelSubmarinos,labelDestructores,labelFragatas,labelRow,labelCol;
-    Position position = new Position(10,10);
-    public void onHandleButtonStart(ActionEvent event){
+    private Label labelPortaAviones, labelSubmarinos, labelDestructores, labelFragatas, labelRow, labelCol;
+    Position position = new Position(10, 10);
+
+    public void onHandleButtonStart(ActionEvent event) {
         shootGridpane.setVisible(true);
         startButton.setVisible(false);
         buttonFragatas.setVisible(false);
@@ -49,42 +50,51 @@ public class GameController {
         new CreatedBoard().addEvent(shootGridpane);
         imprimirMatriz(position.getMatriz());
     }
+
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
         BoardBotStage.getInstance();
     }
+
     public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Mouse clicked at row: " + row + " col: " + col);
     }
-    public int getRows(){
+
+    public int getRows() {
         return Integer.parseInt(rowTextField.getText());
     }
-    public int getCols(){
+
+    public int getCols() {
         return Integer.parseInt(colTextField.getText());
     }
+
     boolean isHorizontal = false;
-    public void onHandleButtonOrientation(){
+
+    public void onHandleButtonOrientation() {
         isHorizontal = !isHorizontal;
-        if(!isHorizontal){
+        if (!isHorizontal) {
             buttonOrientation.setText("Vertical");
-        }else{
+        } else {
             buttonOrientation.setText("Horizontal");
         }
     }
+
     private static final int MAX_BOARD_SIZE = 10;
     private static final int PORTAAVIONES_SIZE = 4;
     private static final int SUBMARINOS_SIZE = 3;
     private static final int DESTRUCTORES_SIZE = 2;
     private static final int FRAGATAS_SIZE = 1;
-    private int portavionesCount=1;
-    private int submarinosCount=2;
-    private int destructoresCount=3;
-    private int fragatasCount=4;
-    public void addBoat(int boatSize,String button){
-        if(isValidPosition(boatSize)){
-            if (position.colocarBarco(getRows(), getCols(), isHorizontal, boatSize)) {
-                position.colocarBarco(getRows(), getCols(), isHorizontal, boatSize);
-                int positionFinal= getCols() + boatSize;
-                new Boats(getRows(), getCols(), boatSize, isHorizontal).addToGrid(positionGridPane);
+    private int portavionesCount = 1;
+    private int submarinosCount = 2;
+    private int destructoresCount = 3;
+    private int fragatasCount = 4;
+
+    public void addBoat(int boatSize, String button) {
+        int fila = getRows();
+        int columna = getCols();
+
+        if (position.isValidPosition(fila, columna, isHorizontal, boatSize)) {
+            if (position.colocarBarco(fila, columna, isHorizontal, boatSize)) {
+                new Boats(fila, columna, boatSize, isHorizontal).addToGrid(positionGridPane);
                 rowTextField.clear();
                 colTextField.clear();
                 if (Objects.equals(button, "portaAviones")) {
@@ -115,38 +125,36 @@ public class GameController {
                 if (portavionesCount == 0 && submarinosCount == 0 && destructoresCount == 0 && fragatasCount == 0) {
                     startButton.setDisable(false);
                 }
-            }else {
+            } else {
                 String tittle = "Error";
-                String header = "La posición ya está ocupada";
-                String content = "Por favor ingrese una posición que no esté ocupada por otro barco";
+                String header = position.getErrorMessage();
+                String content = "Por favor ingrese una posición válida.";
                 new AlertBox().showMessage(tittle, header, content);
             }
         } else {
             String tittle = "Error";
-            String header = "El tamaño excede el tablero";
-            String content = "Por favor ingrese una posicion que no salga del tablero";
+            String header = position.getErrorMessage();
+            String content = "Por favor ingrese una posición válida.";
             new AlertBox().showMessage(tittle, header, content);
         }
     }
-    public boolean isValidPosition(int boatSize){
-        if(isHorizontal){
-            return getCols() < MAX_BOARD_SIZE - boatSize + 1;
-        } else {
-            return getRows() < MAX_BOARD_SIZE - boatSize + 1;
-        }
-    }
+
     public void onHandleButtonPortaAviones(Event event) {
-        addBoat(PORTAAVIONES_SIZE,"portaAviones");
+        addBoat(PORTAAVIONES_SIZE, "portaAviones");
     }
+
     public void onHandleButtonSubmarinos(Event event) {
-        addBoat(SUBMARINOS_SIZE,"submarinos");
+        addBoat(SUBMARINOS_SIZE, "submarinos");
     }
+
     public void onHandleButtonDestrutores(Event event) {
-        addBoat(DESTRUCTORES_SIZE,"destructores");
+        addBoat(DESTRUCTORES_SIZE, "destructores");
     }
+
     public void onHandleButtonFragatas(Event event) {
-        addBoat(FRAGATAS_SIZE,"fragatas");
+        addBoat(FRAGATAS_SIZE, "fragatas");
     }
+
     public void imprimirMatriz(int[][] matriz) {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
