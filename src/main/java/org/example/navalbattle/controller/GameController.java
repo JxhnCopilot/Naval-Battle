@@ -54,9 +54,6 @@ public class GameController {
     }
     public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Mouse clicked at row: " + row + " col: " + col);
-        int cellState = position.obtenerEstadoCasilla(row, col);
-        System.out.println("Cell state: " + cellState);
-        computerPlay();
     }
     public int getRows(){
         return Integer.parseInt(rowTextField.getText());
@@ -88,7 +85,7 @@ public class GameController {
                 position.colocarBarco(getRows(), getCols(), isHorizontal, boatSize);
                 int positionFinal= getCols() + boatSize;
                 new Boats(getRows(), getCols(), boatSize, isHorizontal).addToGrid(positionGridPane);
-                //rowTextField.clear();
+                rowTextField.clear();
                 colTextField.clear();
                 if (Objects.equals(button, "portaAviones")) {
                     portavionesCount -= 1;
@@ -116,7 +113,7 @@ public class GameController {
                     }
                 }
                 if (portavionesCount == 0 && submarinosCount == 0 && destructoresCount == 0 && fragatasCount == 0) {
-                    //startButton.setDisable(false);
+                    startButton.setDisable(false);
                 }
             }else {
                 String tittle = "Error";
@@ -149,24 +146,6 @@ public class GameController {
     }
     public void onHandleButtonFragatas(Event event) {
         addBoat(FRAGATAS_SIZE,"fragatas");
-    }
-    public void computerPlay() {
-        Random random = new Random();
-        int row, col;
-        row = random.nextInt(MAX_BOARD_SIZE);
-        col = random.nextInt(MAX_BOARD_SIZE);
-        System.out.println("Computer plays at row: " + row + " col: " + col);
-        int cellState = position.obtenerEstadoCasilla(row, col);
-        System.out.println("Cell state: " + cellState);
-        if (cellState == 1) {
-            System.out.println("Computer hit a ship");
-            // Aquí podrías cambiar el estado de la celda a un valor diferente para representar un barco golpeado
-        } else if (cellState == 0) {
-            System.out.println("Computer missed");
-            // Aquí podrías cambiar el estado de la celda a un valor diferente para representar un disparo fallido
-        } else {
-            // Aquí podrías manejar otros estados de la celda, como un disparo que ya ha sido hecho
-        }
     }
 }
 
