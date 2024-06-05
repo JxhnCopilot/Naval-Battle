@@ -243,15 +243,39 @@ public class GameController {
         if (position.getMatriz()[row][col] == 1) {
             enemyFragata--;
             System.out.println("Hit!");
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            positionGridPane.add(imageView, col, row);
             // Aquí puedes actualizar el tablero de disparos para reflejar el acierto
         } else if (position.getMatriz()[row][col]== 2) {
             enemyDestructor--;
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explostionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            positionGridPane.add(imageView, col, row);
             System.out.println("Hit!");
         } else if (position.getMatriz()[row][col]== 3) {
             enemySubmarino--;
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            positionGridPane.add(imageView, col, row);
             System.out.println("Hit!");
         } else if (position.getMatriz()[row][col]== 4) {
             enemyPortaAvion--;
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            positionGridPane.add(imageView, col, row);
             System.out.println("Hit!");
         } else {
             System.out.println("Miss!");
