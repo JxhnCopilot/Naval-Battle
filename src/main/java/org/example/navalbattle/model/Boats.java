@@ -27,21 +27,25 @@ public class Boats {
         for (int i = 0; i < length; i++) {
             squares[i] = new Rectangle(40, 40);
             squares[i].setFill(Color.GRAY);
+            squares[i].setStroke(Color.BLACK);
         }
         }else if (length== 3) {
             for (int i = 0; i < length; i++) {
                 squares[i] = new Rectangle(40, 40);
                 squares[i].setFill(Color.RED);
+                squares[i].setStroke(Color.BLACK);
             }
         }else if (length== 2) {
             for (int i = 0; i < length; i++) {
                 squares[i] = new Rectangle(40, 40);
                 squares[i].setFill(Color.GREEN);
+                squares[i].setStroke(Color.BLACK);
             }
         } else if (length==1) {
             for (int i = 0; i < length; i++) {
                 squares[i] = new Rectangle(40, 40);
                 squares[i].setFill(Color.WHITE);
+                squares[i].setStroke(Color.BLACK);
             }
         }
     }

@@ -72,19 +72,49 @@ public class GameController {
         if (enemyBoard[row][col] == 1) {
             new AlertBox().showMessage("Barco Derrivado",null, "Haz derrivado una Fragata.");
             fragatas--;
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            shootGridpane.add(imageView, col, row);
             System.out.println("Hit!");
             // Aquí puedes actualizar el tablero de disparos para reflejar el acierto
         } else if (enemyBoard[row][col] == 2) {
             destructores--;
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            shootGridpane.add(imageView, col, row);
             System.out.println("Hit!");
         } else if (enemyBoard[row][col] == 3) {
             submarinos--;
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            shootGridpane.add(imageView, col, row);
             System.out.println("Hit!");
         } else if (enemyBoard[row][col] == 4) {
             portaAviones--;
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            shootGridpane.add(imageView, col, row);
             System.out.println("Hit!");
         } else {
             System.out.println("Miss!");
+            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/xIcon.png");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(gif);
+            shootGridpane.add(imageView, col, row);
         }
         System.out.println(fragatas + " " + destructores + " " + submarinos + " " + portaAviones);
         computerPlay();
