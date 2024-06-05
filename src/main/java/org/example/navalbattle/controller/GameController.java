@@ -19,7 +19,9 @@ import org.example.navalbattle.view.GameStage;
 import org.example.navalbattle.view.WelcomeStage;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class GameController {
     @FXML
@@ -34,7 +36,7 @@ public class GameController {
     private ImageView imageViewShootBoard;
     Position position = new Position(10, 10);
     EnemyBoard enemyBoard = new EnemyBoard();
-    int fragatas = 4 , destructores = 6, submarinos = 6, portaAviones = 4;
+    int fragatas = 4, destructores = 6, submarinos = 6, portaAviones = 4;
 
 
     @FXML
@@ -61,28 +63,32 @@ public class GameController {
         imageViewShootBoard.setVisible(true);
         addEvent(shootGridpane);
     }
+
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
         BoardBotStage.getInstance().show();
     }
 
+    private Position shootPosition = new Position(10, 10);
+
     public void handleMouseClick(MouseEvent event, int row, int col) {
+        shootPosition.getMatriz()[row][col] = 1;
         ((ImageView) event.getSource()).setOnMouseClicked(null);
         System.out.println("Diste click");
         int[][] enemyBoard = this.enemyBoard.getBoard();
         if (enemyBoard[row][col] == 1) {
             fragatas--;
-            putImageExplotion(row, col,shootGridpane);
+            putImageExplotion(row, col, shootGridpane);
         } else if (enemyBoard[row][col] == 2) {
             destructores--;
-            putImageExplotion(row, col,shootGridpane);
+            putImageExplotion(row, col, shootGridpane);
         } else if (enemyBoard[row][col] == 3) {
             submarinos--;
-            putImageExplotion(row, col,shootGridpane);
+            putImageExplotion(row, col, shootGridpane);
         } else if (enemyBoard[row][col] == 4) {
             portaAviones--;
-            putImageExplotion(row, col,shootGridpane);
+            putImageExplotion(row, col, shootGridpane);
         } else {
-            putImageFail(row, col,shootGridpane);
+            putImageFail(row, col, shootGridpane);
         }
         computerPlay();
         winnerVerification();
@@ -169,25 +175,43 @@ public class GameController {
     }
 
     public void onHandleButtonPortaAviones(Event event) {
-        addBoat(PORTAAVIONES_SIZE, "portaAviones");
+        try {
+            addBoat(PORTAAVIONES_SIZE, "portaAviones");
+        } catch (Exception e) {
+            System.out.println("TextField Vacio");
+        }
     }
 
     public void onHandleButtonSubmarinos(Event event) {
-        addBoat(SUBMARINOS_SIZE, "submarinos");
+        try {
+            addBoat(SUBMARINOS_SIZE, "submarinos");
+        } catch (Exception e) {
+            System.out.println("TextField Vacio");
+        }
     }
 
     public void onHandleButtonDestrutores(Event event) {
-        addBoat(DESTRUCTORES_SIZE, "destructores");
+
+        try {
+            addBoat(DESTRUCTORES_SIZE, "destructores");
+        } catch (Exception e) {
+            System.out.println("TextField Vacio");
+        }
     }
 
     public void onHandleButtonFragatas(Event event) {
-        addBoat(FRAGATAS_SIZE, "fragatas");
+        try {
+            addBoat(FRAGATAS_SIZE, "fragatas");
+        } catch (Exception e) {
+            System.out.println("TextField Vacio");
+        }
     }
+
     public void addEvent(GridPane gridPane) {
         Image image = new Image("file:src/main/resources/org/example/navalbattle/images/water.png");
         for (int row = 0; row <= 9; row++) {
             for (int col = 0; col <= 9; col++) {
-                if(gridPane==shootGridpane){
+                if (gridPane == shootGridpane) {
                     ImageView imageView = new ImageView();
                     imageView.setFitHeight(40);
                     imageView.setFitWidth(40);
@@ -197,57 +221,65 @@ public class GameController {
                     final int c = col;
                     imageView.setOnMouseClicked(event -> handleMouseClick(event, r, c));
                     gridPane.add(imageView, col, row);
-                }
-                else{
+                } else {
                     ImageView imageView = new ImageView();
                     imageView.setFitHeight(40);
                     imageView.setFitWidth(40);
                     imageView.setImage(image);
-                    gridPane.add(imageView  , col, row);
+                    gridPane.add(imageView, col, row);
                 }
             }
         }
     }
 
     public void winnerVerification() {
-        try{
-        if (fragatas == 0 && destructores == 0 && submarinos == 0 && portaAviones == 0) {
-            new AlertBox().showMessage("Ganaste", null, "Has ganado la batalla.");
-            GameStage.deleteInstance();
-            BoardBotStage.deleteInstance();
-            WelcomeStage.getInstance();
-        } else if (enemyFragata == 0 && enemyDestructor == 0 && enemySubmarino == 0 && enemyPortaAvion == 0) {
-            new AlertBox().showMessage("Perdiste", null, "Has sido derrotado.");
-            GameStage.deleteInstance();
-            BoardBotStage.deleteInstance();
-            WelcomeStage.getInstance();
-        }
-        }catch (Exception e){
+        try {
+            if (fragatas == 0 && destructores == 0 && submarinos == 0 && portaAviones == 0) {
+                new AlertBox().showMessage("Ganaste", null, "Has ganado la batalla.");
+                GameStage.deleteInstance();
+                BoardBotStage.deleteInstance();
+                WelcomeStage.getInstance();
+            } else if (enemyFragata == 0 && enemyDestructor == 0 && enemySubmarino == 0 && enemyPortaAvion == 0) {
+                new AlertBox().showMessage("Perdiste", null, "Has sido derrotado.");
+                GameStage.deleteInstance();
+                BoardBotStage.deleteInstance();
+                WelcomeStage.getInstance();
+            }
+        } catch (Exception e) {
             System.out.println("Error");
         }
     }
-    int enemyFragata = 4, enemyDestructor =6, enemySubmarino = 6, enemyPortaAvion = 4;
-    public void computerPlay(){
-        int row = (int) (Math.random() * MAX_BOARD_SIZE);
-        int col = (int) (Math.random() * MAX_BOARD_SIZE);
+
+    int enemyFragata = 4, enemyDestructor = 6, enemySubmarino = 6, enemyPortaAvion = 4;
+    Position enemyPosition = new Position(10, 10);
+
+    public void computerPlay() {
+        int row, col;
+        do {
+            row = (int) (Math.random() * MAX_BOARD_SIZE);
+            col = (int) (Math.random() * MAX_BOARD_SIZE);
+        } while (enemyPosition.getMatriz()[row][col] == 1);
+
+        enemyPosition.getMatriz()[row][col] = 1;
         if (position.getMatriz()[row][col] == 1) {
             enemyFragata--;
-            putImageExplotion(row, col,positionGridPane);
-        } else if (position.getMatriz()[row][col]== 2) {
+            putImageExplotion(row, col, positionGridPane);
+        } else if (position.getMatriz()[row][col] == 2) {
             enemyDestructor--;
-            putImageExplotion(row, col,positionGridPane);
-        } else if (position.getMatriz()[row][col]== 3) {
+            putImageExplotion(row, col, positionGridPane);
+        } else if (position.getMatriz()[row][col] == 3) {
             enemySubmarino--;
-            putImageExplotion(row, col,positionGridPane);
-        } else if (position.getMatriz()[row][col]== 4) {
+            putImageExplotion(row, col, positionGridPane);
+        } else if (position.getMatriz()[row][col] == 4) {
             enemyPortaAvion--;
-            putImageExplotion(row, col,positionGridPane);
+            putImageExplotion(row, col, positionGridPane);
         } else {
-            putImageFail(row, col,positionGridPane);
+            putImageFail(row, col, positionGridPane);
         }
         winnerVerification();
     }
-    public void putImageExplotion(int row, int col,GridPane gridPane){
+
+    public void putImageExplotion(int row, int col, GridPane gridPane) {
         Image image = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
         ImageView imageView = new ImageView();
         imageView.setFitHeight(40);
@@ -255,7 +287,8 @@ public class GameController {
         imageView.setImage(image);
         gridPane.add(imageView, col, row);
     }
-    public void putImageFail(int row, int col,GridPane gridPane){
+
+    public void putImageFail(int row, int col, GridPane gridPane) {
         Image image = new Image("file:src/main/resources/org/example/navalbattle/images/xIcon.png");
         ImageView imageView = new ImageView();
         imageView.setFitHeight(40);
