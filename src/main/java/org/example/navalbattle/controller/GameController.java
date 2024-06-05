@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import org.example.navalbattle.model.Boats;
+import org.example.navalbattle.model.EnemyBoard;
 import org.example.navalbattle.model.Position;
 import org.example.navalbattle.view.Alerts.AlertBox;
 import org.example.navalbattle.view.BoardBotStage;
@@ -29,6 +30,7 @@ public class GameController {
     @FXML
     private Label labelPortaAviones, labelSubmarinos, labelDestructores, labelFragatas, labelRow, labelCol;
     Position position = new Position(10, 10);
+    EnemyBoard enemyBoard = new EnemyBoard();
     @FXML
     public void initialize() {
         addEvent(positionGridPane);
@@ -50,7 +52,8 @@ public class GameController {
         buttonOrientation.setVisible(false);
         labelRow.setVisible(false);
         labelCol.setVisible(false);
-        imprimirMatriz(position.getMatriz());
+        //imprimirMatriz(position.getMatriz());
+        imprimirMatriz(enemyBoard.getBoard());
         addEvent(shootGridpane);
     }
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
@@ -59,6 +62,21 @@ public class GameController {
 
     public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Mouse clicked at row: " + row + " col: " + col);
+        // Compara el disparo con el tablero enemigo
+        int[][] enemyBoard = this.enemyBoard.getBoard();
+        if (enemyBoard[row][col] == 1) {
+            System.out.println("Hit!");
+            // Aquí puedes actualizar el tablero de disparos para reflejar el acierto
+        } else if (enemyBoard[row][col] == 2) {
+            System.out.println("Hit!");
+        } else if (enemyBoard[row][col] == 3) {
+            System.out.println("Hit!");
+        } else if (enemyBoard[row][col] == 4) {
+            System.out.println("Hit!");
+        } else {
+            System.out.println("Miss!");
+            // Aquí puedes actualizar el tablero de disparos para reflejar el fallo
+        }
         computerPlay();
     }
 
@@ -171,28 +189,22 @@ public class GameController {
         for (int row = 0; row <= 9; row++) {
             for (int col = 0; col <= 9; col++) {
                 if(gridPane==shootGridpane){
-                    Pane pane= new Pane();
                     ImageView imageView = new ImageView();
                     imageView.setFitHeight(40);
                     imageView.setFitWidth(40);
                     imageView.setImage(image);
                     imageView.setStyle("-fx-cursor: hand");
-                    pane.getChildren().add(imageView);
                     final int r = row;
                     final int c = col;
-                    pane.setOnMouseClicked(event -> handleMouseClick(event, r, c));
-                    gridPane.add(pane, col, row);
+                    imageView.setOnMouseClicked(event -> handleMouseClick(event, r, c));
+                    gridPane.add(imageView, col, row);
                 }
                 else{
-                    Pane pane = new Pane();
                     ImageView imageView = new ImageView();
                     imageView.setFitHeight(40);
                     imageView.setFitWidth(40);
-                    imageView.setStyle("-fx-border-color: black"
-                            + ";-fx-border-width: 1");
                     imageView.setImage(image);
-                    pane.getChildren().add(imageView);
-                    gridPane.add(pane, col, row);
+                    gridPane.add(imageView  , col, row);
                 }
             }
         }

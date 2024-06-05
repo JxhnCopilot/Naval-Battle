@@ -39,7 +39,7 @@ public class Position {
 
     public boolean isValidPosition(int fila, int columna, boolean isHorizontal, int boatSize) {
         if (isHorizontal) {
-            if (columna>9 || fila>9) {
+            if (columna + boatSize > position.length) {
                 errorMessage = "El tamaño excede el tablero";
                 return false;
             }
@@ -68,9 +68,6 @@ public class Position {
         return errorMessage;
     }
 
-    public int obtenerEstadoCasilla(int fila, int columna) {
-        return position[fila][columna];
-    }
 
     public int[][] getMatriz() {
         return position;
