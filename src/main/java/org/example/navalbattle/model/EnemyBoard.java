@@ -2,6 +2,9 @@ package org.example.navalbattle.model;
 
 import java.util.Random;
 
+/**
+ * Represents the enemy's board in the naval battle game.
+ */
 public class EnemyBoard {
     private static final int BOARD_SIZE = 10;
     private static final int WATER = 0;
@@ -12,6 +15,9 @@ public class EnemyBoard {
     private static int[][] board;
     private Random random;
 
+    /**
+     * Constructs a new enemy board and places the ships.
+     */
     public EnemyBoard() {
         board = new int[BOARD_SIZE][BOARD_SIZE];
         random = new Random();
@@ -23,6 +29,9 @@ public class EnemyBoard {
         placeShips();
     }
 
+    /**
+     * Places all the ships on the board.
+     */
     private void placeShips() {
         placeShip(PORTAVIONES, 1);
         placeShip(SUBMARINO, 2);
@@ -30,6 +39,12 @@ public class EnemyBoard {
         placeShip(FRAGATA, 4);
     }
 
+    /**
+     * Places a specific ship on the board.
+     *
+     * @param shipSize the size of the ship
+     * @param shipCount the number of ships to place
+     */
     private void placeShip(int shipSize, int shipCount) {
         for (int i = 0; i < shipCount; i++) {
             int row, col;
@@ -49,6 +64,15 @@ public class EnemyBoard {
         }
     }
 
+    /**
+     * Checks if a ship can be placed at the specified position.
+     *
+     * @param row the row position
+     * @param col the column position
+     * @param isHorizontal whether the ship is placed horizontally
+     * @param shipSize the size of the ship
+     * @return true if the ship can be placed, false otherwise
+     */
     private boolean canPlaceShip(int row, int col, boolean isHorizontal, int shipSize) {
         if (isHorizontal) {
             if (col + shipSize > BOARD_SIZE) {
@@ -72,6 +96,11 @@ public class EnemyBoard {
         return true;
     }
 
+    /**
+     * Returns the current state of the board.
+     *
+     * @return the board
+     */
     public static int[][] getBoard() {
         return board;
     }

@@ -8,37 +8,50 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Represents the welcome stage in the naval battle game.
+ */
 public class WelcomeStage extends Stage {
+    /**
+     * Constructs a new welcome stage.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     public WelcomeStage() throws IOException {
-        //Importamos la Vista de bienvenida
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                 "/org/example/navalbattle/welcome-view.fxml"));
-        //Creamos el Parent
         Parent root = loader.load();
-        //Creamos una nueva Escena
         Scene scene = new Scene(root);
-        //Insertamos la Escena al Stage
         setScene(scene);
-        //Insertamos un titulo al Stage
         setTitle("Naval Battle");
-        //Insertamos un icono al Stage
         getIcons().add(new Image("file:src/main/resources/org/example/navalbattle/images/favicon.png"));
-        //Hacemos que el Stage no se pueda redimensionar
         setResizable(false);
-        //Agregamos el icono al Stage
-        //Hacemos el show al stage
         show();
     }
-    //Patron Singleton
+
+    /**
+     * Returns the instance of the welcome stage.
+     *
+     * @return the instance of the welcome stage
+     * @throws IOException if an I/O error occurs
+     */
     public static WelcomeStage getInstance() throws IOException {
         return  WelcomeStage.WelcomeStageHolder.INSTANCE != null ?
                 WelcomeStage.WelcomeStageHolder.INSTANCE :
                 (WelcomeStage.WelcomeStageHolder.INSTANCE = new WelcomeStage());
     }
+
+    /**
+     * Deletes the instance of the welcome stage.
+     */
     public static void deleteInstance() {
         WelcomeStageHolder.INSTANCE.close();
         WelcomeStageHolder.INSTANCE = null;
     }
+
+    /**
+     * Holds the instance of the welcome stage.
+     */
     private static class WelcomeStageHolder{
         private static WelcomeStage INSTANCE;
     }
