@@ -3,6 +3,7 @@ package org.example.navalbattle.view;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -19,6 +20,8 @@ public class BoardBotStage extends Stage {
         setScene(scene);
         //Insertamos un titulo al Stage
         setTitle("Tablero Bot");
+        //Insertamos un icono al Stage
+        getIcons().add(new Image("file:src/main/resources/org/example/navalbattle/images/favicon.png"));
         //Hacemos que el Stage no se pueda redimensionar
         setResizable(false);
         //Agregamos el icono al Stage
@@ -26,7 +29,9 @@ public class BoardBotStage extends Stage {
         show();
     }
     public static BoardBotStage getInstance() throws IOException {
-        return BoardBotStage.BoardBotStageHolder.INSTANCE = new BoardBotStage();
+        return  BoardBotStage.BoardBotStageHolder.INSTANCE != null ?
+                BoardBotStage.BoardBotStageHolder.INSTANCE :
+                (BoardBotStage.BoardBotStageHolder.INSTANCE = new BoardBotStage());
     }
     public static void deleteInstance() {
         BoardBotStage.BoardBotStageHolder.INSTANCE.close();

@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -27,6 +29,10 @@ public class GameController {
     @FXML
     private Label labelPortaAviones, labelSubmarinos, labelDestructores, labelFragatas, labelRow, labelCol;
     Position position = new Position(10, 10);
+    @FXML
+    public void initialize() {
+        addEvent(positionGridPane);
+    }
 
     public void onHandleButtonStart(ActionEvent event) {
         shootGridpane.setVisible(true);
@@ -48,12 +54,12 @@ public class GameController {
         addEvent(shootGridpane);
     }
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
-        BoardBotStage.getInstance();
+        BoardBotStage.getInstance().show();
     }
 
     public void handleMouseClick(MouseEvent event, int row, int col) {
         System.out.println("Mouse clicked at row: " + row + " col: " + col);
-        imprimirMatriz(position.getMatriz());
+        computerPlay();
     }
 
     public int getRows() {
@@ -161,17 +167,44 @@ public class GameController {
         }
     }
     public void addEvent(GridPane gridPane) {
+        Image image = new Image("file:src/main/resources/org/example/navalbattle/images/water.png");
         for (int row = 0; row <= 9; row++) {
             for (int col = 0; col <= 9; col++) {
-                Pane pane= new Pane();
-                final int r = row;
-                final int c = col;
-                pane.setOnMouseClicked(event -> handleMouseClick(event, r, c));
-                pane.setStyle("-fx-background-color: blue;" +
-                        "-fx-border-color: black;"+
-                        "-fx-border-width: 2px");
-                gridPane.add(pane, col, row);
+                if(gridPane==shootGridpane){
+                    Pane pane= new Pane();
+                    ImageView imageView = new ImageView();
+                    imageView.setFitHeight(40);
+                    imageView.setFitWidth(40);
+                    imageView.setImage(image);
+                    imageView.setStyle("-fx-cursor: hand");
+                    pane.getChildren().add(imageView);
+                    final int r = row;
+                    final int c = col;
+                    pane.setOnMouseClicked(event -> handleMouseClick(event, r, c));
+                    gridPane.add(pane, col, row);
+                }
+                else{
+                    Pane pane = new Pane();
+                    ImageView imageView = new ImageView();
+                    imageView.setFitHeight(40);
+                    imageView.setFitWidth(40);
+                    imageView.setStyle("-fx-border-color: black"
+                            + ";-fx-border-width: 1");
+                    imageView.setImage(image);
+                    pane.getChildren().add(imageView);
+                    gridPane.add(pane, col, row);
+                }
             }
+        }
+    }
+    public void computerPlay(){
+        int row = (int) (Math.random() * MAX_BOARD_SIZE);
+        int col = (int) (Math.random() * MAX_BOARD_SIZE);
+        System.out.println("Computer plays at row: " + row + " col: " + col);
+        if (position.getMatriz()[row][col] == 0) {
+            System.out.println("Computer missed");
+        } else {
+            System.out.println("Computer hit");
         }
     }
 }

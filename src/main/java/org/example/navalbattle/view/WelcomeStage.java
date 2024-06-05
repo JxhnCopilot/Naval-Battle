@@ -21,6 +21,8 @@ public class WelcomeStage extends Stage {
         setScene(scene);
         //Insertamos un titulo al Stage
         setTitle("Naval Battle");
+        //Insertamos un icono al Stage
+        getIcons().add(new Image("file:src/main/resources/org/example/navalbattle/images/favicon.png"));
         //Hacemos que el Stage no se pueda redimensionar
         setResizable(false);
         //Agregamos el icono al Stage
@@ -29,7 +31,9 @@ public class WelcomeStage extends Stage {
     }
     //Patron Singleton
     public static WelcomeStage getInstance() throws IOException {
-        return WelcomeStageHolder.INSTANCE = new WelcomeStage();
+        return  WelcomeStage.WelcomeStageHolder.INSTANCE != null ?
+                WelcomeStage.WelcomeStageHolder.INSTANCE :
+                (WelcomeStage.WelcomeStageHolder.INSTANCE = new WelcomeStage());
     }
     public static void deleteInstance() {
         WelcomeStageHolder.INSTANCE.close();
