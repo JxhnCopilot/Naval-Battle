@@ -60,8 +60,6 @@ public class GameController {
         labelRow.setVisible(false);
         labelCol.setVisible(false);
         imageViewShootBoard.setVisible(true);
-        //imprimirMatriz(position.getMatriz());
-        imprimirMatriz(enemyBoard.getBoard());
         addEvent(shootGridpane);
     }
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
@@ -69,57 +67,24 @@ public class GameController {
     }
 
     public void handleMouseClick(MouseEvent event, int row, int col) {
-        System.out.println("Mouse clicked at row: " + row + " col: " + col);
-        // Compara el disparo con el tablero enemigo
+        ((ImageView) event.getSource()).setOnMouseClicked(null);
+        System.out.println("Diste click");
         int[][] enemyBoard = this.enemyBoard.getBoard();
         if (enemyBoard[row][col] == 1) {
-            new AlertBox().showMessage("Barco Derrivado",null, "Haz derrivado una Fragata.");
             fragatas--;
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            shootGridpane.add(imageView, col, row);
-            System.out.println("Hit!");
-            // Aquí puedes actualizar el tablero de disparos para reflejar el acierto
+            putImageExplotion(row, col,shootGridpane);
         } else if (enemyBoard[row][col] == 2) {
             destructores--;
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            shootGridpane.add(imageView, col, row);
-            System.out.println("Hit!");
+            putImageExplotion(row, col,shootGridpane);
         } else if (enemyBoard[row][col] == 3) {
             submarinos--;
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            shootGridpane.add(imageView, col, row);
-            System.out.println("Hit!");
+            putImageExplotion(row, col,shootGridpane);
         } else if (enemyBoard[row][col] == 4) {
             portaAviones--;
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            shootGridpane.add(imageView, col, row);
-            System.out.println("Hit!");
+            putImageExplotion(row, col,shootGridpane);
         } else {
-            System.out.println("Miss!");
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/xIcon.png");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            shootGridpane.add(imageView, col, row);
+            putImageFail(row, col,shootGridpane);
         }
-        System.out.println(fragatas + " " + destructores + " " + submarinos + " " + portaAviones);
         computerPlay();
         winnerVerification();
     }
@@ -275,52 +240,35 @@ public class GameController {
         int col = (int) (Math.random() * MAX_BOARD_SIZE);
         if (position.getMatriz()[row][col] == 1) {
             enemyFragata--;
-            System.out.println("Hit!");
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            positionGridPane.add(imageView, col, row);
-            // Aquí puedes actualizar el tablero de disparos para reflejar el acierto
+            putImageExplotion(row, col,positionGridPane);
         } else if (position.getMatriz()[row][col]== 2) {
             enemyDestructor--;
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explostionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            positionGridPane.add(imageView, col, row);
-            System.out.println("Hit!");
+            putImageExplotion(row, col,positionGridPane);
         } else if (position.getMatriz()[row][col]== 3) {
             enemySubmarino--;
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            positionGridPane.add(imageView, col, row);
-            System.out.println("Hit!");
+            putImageExplotion(row, col,positionGridPane);
         } else if (position.getMatriz()[row][col]== 4) {
             enemyPortaAvion--;
-            Image gif = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(gif);
-            positionGridPane.add(imageView, col, row);
-            System.out.println("Hit!");
+            putImageExplotion(row, col,positionGridPane);
         } else {
-            System.out.println("Miss!");
-            Image image = new Image("file:src/main/resources/org/example/navalbattle/images/xIcon.png");
-            ImageView imageView = new ImageView();
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            imageView.setImage(image);
-            positionGridPane.add(imageView, col, row);
+            putImageFail(row, col,positionGridPane);
         }
-        System.out.println(enemyFragata + " " + enemyDestructor + " " + enemySubmarino + " " + enemyPortaAvion);
-        System.out.println(row + "ENEMIGO " + col);
         winnerVerification();
+    }
+    public void putImageExplotion(int row, int col,GridPane gridPane){
+        Image image = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(40);
+        imageView.setFitWidth(40);
+        imageView.setImage(image);
+        gridPane.add(imageView, col, row);
+    }
+    public void putImageFail(int row, int col,GridPane gridPane){
+        Image image = new Image("file:src/main/resources/org/example/navalbattle/images/xIcon.png");
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(40);
+        imageView.setFitWidth(40);
+        imageView.setImage(image);
+        gridPane.add(imageView, col, row);
     }
 }
