@@ -23,7 +23,7 @@ public class BoardBotStage extends Stage {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Tablero Bot");
+        setTitle("Battleship - Bot's Board");
         getIcons().add(new Image("file:src/main/resources/org/example/navalbattle/images/favicon.png"));
         setResizable(false);
         show();

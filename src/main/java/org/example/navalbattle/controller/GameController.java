@@ -10,14 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import org.example.navalbattle.model.Boats;
 import org.example.navalbattle.model.EnemyBoard;
 import org.example.navalbattle.model.Position;
 import org.example.navalbattle.view.Alerts.AlertBox;
-import org.example.navalbattle.view.Alerts.IAlertBox;
 import org.example.navalbattle.view.BoardBotStage;
 import org.example.navalbattle.view.GameStage;
+import org.example.navalbattle.view.WelcomeStage;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -184,15 +183,6 @@ public class GameController {
     public void onHandleButtonFragatas(Event event) {
         addBoat(FRAGATAS_SIZE, "fragatas");
     }
-
-    public void imprimirMatriz(int[][] matriz) {
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[i].length; j++) {
-                System.out.print(matriz[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
     public void addEvent(GridPane gridPane) {
         Image image = new Image("file:src/main/resources/org/example/navalbattle/images/water.png");
         for (int row = 0; row <= 9; row++) {
@@ -225,10 +215,12 @@ public class GameController {
             new AlertBox().showMessage("Ganaste", null, "Has ganado la batalla.");
             GameStage.deleteInstance();
             BoardBotStage.deleteInstance();
+            WelcomeStage.getInstance();
         } else if (enemyFragata == 0 && enemyDestructor == 0 && enemySubmarino == 0 && enemyPortaAvion == 0) {
             new AlertBox().showMessage("Perdiste", null, "Has sido derrotado.");
             GameStage.deleteInstance();
             BoardBotStage.deleteInstance();
+            WelcomeStage.getInstance();
         }
         }catch (Exception e){
             System.out.println("Error");
