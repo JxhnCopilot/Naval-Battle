@@ -15,7 +15,9 @@ import org.example.navalbattle.model.Boats;
 import org.example.navalbattle.model.EnemyBoard;
 import org.example.navalbattle.model.Position;
 import org.example.navalbattle.view.Alerts.AlertBox;
+import org.example.navalbattle.view.Alerts.IAlertBox;
 import org.example.navalbattle.view.BoardBotStage;
+import org.example.navalbattle.view.GameStage;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,6 +33,9 @@ public class GameController {
     private Label labelPortaAviones, labelSubmarinos, labelDestructores, labelFragatas, labelRow, labelCol;
     Position position = new Position(10, 10);
     EnemyBoard enemyBoard = new EnemyBoard();
+    int fragatas = 4 , destructores = 6, submarinos = 6, portaAviones = 4;
+
+
     @FXML
     public void initialize() {
         addEvent(positionGridPane);
@@ -65,19 +70,26 @@ public class GameController {
         // Compara el disparo con el tablero enemigo
         int[][] enemyBoard = this.enemyBoard.getBoard();
         if (enemyBoard[row][col] == 1) {
+            new AlertBox().showMessage("Barco Derrivado",null, "Haz derrivado una Fragata.");
+            fragatas--;
             System.out.println("Hit!");
             // Aquí puedes actualizar el tablero de disparos para reflejar el acierto
         } else if (enemyBoard[row][col] == 2) {
+            destructores--;
             System.out.println("Hit!");
         } else if (enemyBoard[row][col] == 3) {
+            submarinos--;
             System.out.println("Hit!");
         } else if (enemyBoard[row][col] == 4) {
+            portaAviones--;
             System.out.println("Hit!");
         } else {
             System.out.println("Miss!");
             // Aquí puedes actualizar el tablero de disparos para reflejar el fallo
         }
+        System.out.println(fragatas + " " + destructores + " " + submarinos + " " + portaAviones);
         computerPlay();
+        winnerVerification();
     }
 
     public int getRows() {
@@ -209,14 +221,45 @@ public class GameController {
             }
         }
     }
+
+    public void winnerVerification() {
+        try{
+        if (fragatas == 0 && destructores == 0 && submarinos == 0 && portaAviones == 0) {
+            new AlertBox().showMessage("Ganaste", null, "Haz ganado la partida.");
+            GameStage.deleteInstance();
+            BoardBotStage.deleteInstance();
+        } else if (enemyFragata == 0 && enemyDestructor == 0 && enemySubmarino == 0 && enemyPortaAvion == 0) {
+            new AlertBox().showMessage("Perdiste", null, "Haz perdido la partida.");
+            GameStage.deleteInstance();
+            BoardBotStage.deleteInstance();
+        }
+        }catch (Exception e){
+            System.out.println("Error");
+        }
+    }
+    int enemyFragata = 1, enemyDestructor =0, enemySubmarino = 0, enemyPortaAvion = 0;
     public void computerPlay(){
         int row = (int) (Math.random() * MAX_BOARD_SIZE);
         int col = (int) (Math.random() * MAX_BOARD_SIZE);
-        System.out.println("Computer plays at row: " + row + " col: " + col);
-        if (position.getMatriz()[row][col] == 0) {
-            System.out.println("Computer missed");
+        if (position.getMatriz()[row][col] == 1) {
+            enemyFragata--;
+            System.out.println("Hit!");
+            // Aquí puedes actualizar el tablero de disparos para reflejar el acierto
+        } else if (position.getMatriz()[row][col]== 2) {
+            enemyDestructor--;
+            System.out.println("Hit!");
+        } else if (position.getMatriz()[row][col]== 3) {
+            enemySubmarino--;
+            System.out.println("Hit!");
+        } else if (position.getMatriz()[row][col]== 4) {
+            enemyPortaAvion--;
+            System.out.println("Hit!");
         } else {
-            System.out.println("Computer hit");
+            System.out.println("Miss!");
+            // Aquí puedes actualizar el tablero de disparos para reflejar el fallo
         }
+        System.out.println(enemyFragata + " " + enemyDestructor + " " + enemySubmarino + " " + enemyPortaAvion);
+        System.out.println(row + "ENEMIGO " + col);
+        winnerVerification();
     }
 }
