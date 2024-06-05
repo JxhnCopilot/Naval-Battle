@@ -236,7 +236,7 @@ public class GameController {
             System.out.println("Error");
         }
     }
-    int enemyFragata = 1, enemyDestructor =0, enemySubmarino = 0, enemyPortaAvion = 0;
+    int enemyFragata = 4, enemyDestructor =6, enemySubmarino = 6, enemyPortaAvion = 4;
     public void computerPlay(){
         int row = (int) (Math.random() * MAX_BOARD_SIZE);
         int col = (int) (Math.random() * MAX_BOARD_SIZE);
