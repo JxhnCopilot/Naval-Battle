@@ -85,7 +85,6 @@ public class GameController {
             System.out.println("Hit!");
         } else {
             System.out.println("Miss!");
-            // Aquí puedes actualizar el tablero de disparos para reflejar el fallo
         }
         System.out.println(fragatas + " " + destructores + " " + submarinos + " " + portaAviones);
         computerPlay();
@@ -256,7 +255,12 @@ public class GameController {
             System.out.println("Hit!");
         } else {
             System.out.println("Miss!");
-            // Aquí puedes actualizar el tablero de disparos para reflejar el fallo
+            Image image = new Image("file:src/main/resources/org/example/navalbattle/images/xIcon.png");
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            imageView.setImage(image);
+            positionGridPane.add(imageView, col, row);
         }
         System.out.println(enemyFragata + " " + enemyDestructor + " " + enemySubmarino + " " + enemyPortaAvion);
         System.out.println(row + "ENEMIGO " + col);
