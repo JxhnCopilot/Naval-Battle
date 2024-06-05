@@ -31,6 +31,8 @@ public class GameController {
     private TextField rowTextField, colTextField;
     @FXML
     private Label labelPortaAviones, labelSubmarinos, labelDestructores, labelFragatas, labelRow, labelCol;
+    @FXML
+    private ImageView imageViewShootBoard;
     Position position = new Position(10, 10);
     EnemyBoard enemyBoard = new EnemyBoard();
     int fragatas = 4 , destructores = 6, submarinos = 6, portaAviones = 4;
@@ -57,6 +59,7 @@ public class GameController {
         buttonOrientation.setVisible(false);
         labelRow.setVisible(false);
         labelCol.setVisible(false);
+        imageViewShootBoard.setVisible(true);
         //imprimirMatriz(position.getMatriz());
         imprimirMatriz(enemyBoard.getBoard());
         addEvent(shootGridpane);
@@ -254,11 +257,11 @@ public class GameController {
     public void winnerVerification() {
         try{
         if (fragatas == 0 && destructores == 0 && submarinos == 0 && portaAviones == 0) {
-            new AlertBox().showMessage("Ganaste", null, "Haz ganado la partida.");
+            new AlertBox().showMessage("Ganaste", null, "Has ganado la batalla.");
             GameStage.deleteInstance();
             BoardBotStage.deleteInstance();
         } else if (enemyFragata == 0 && enemyDestructor == 0 && enemySubmarino == 0 && enemyPortaAvion == 0) {
-            new AlertBox().showMessage("Perdiste", null, "Haz perdido la partida.");
+            new AlertBox().showMessage("Perdiste", null, "Has sido derrotado.");
             GameStage.deleteInstance();
             BoardBotStage.deleteInstance();
         }
