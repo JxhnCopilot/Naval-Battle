@@ -31,7 +31,7 @@ public class GameController {
     @FXML
     private GridPane positionGridPane, shootGridpane;
     @FXML
-    private Button startButton, buttonPortaAviones, buttonSubmarinos, buttonDestructores, buttonOrientation, buttonFragatas, buttonEnemyBoard;
+    private Button buttonLoad,buttonSaved,startButton, buttonPortaAviones, buttonSubmarinos, buttonDestructores, buttonOrientation, buttonFragatas, buttonEnemyBoard;
     @FXML
     private TextField rowTextField, colTextField;
     @FXML
@@ -74,6 +74,8 @@ public class GameController {
         labelRow.setVisible(false);
         labelCol.setVisible(false);
         imageViewShootBoard.setVisible(true);
+        buttonLoad.setVisible(false);
+        buttonSaved.setVisible(false);
         addEvent(shootGridpane);
     }
 

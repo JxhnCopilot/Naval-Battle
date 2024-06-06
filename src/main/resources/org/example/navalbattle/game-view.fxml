@@ -139,11 +139,11 @@
             <Image url="@images/Battleship.png" />
          </image>
       </ImageView>
-      <Button layoutX="585.0" layoutY="463.0" mnemonicParsing="false" onAction="#onHandleButtonSaved" text="Guardar">
+      <Button fx:id="buttonSaved" layoutX="585.0" layoutY="463.0" mnemonicParsing="false" onAction="#onHandleButtonSaved" text="Guardar">
          <font>
             <Font name="Old English Text MT" size="12.0" />
          </font></Button>
-      <Button layoutX="770.0" layoutY="463.0" mnemonicParsing="false" onAction="#onHandleButtonLoad" text="Cargar">
+      <Button fx:id="buttonLoad" layoutX="770.0" layoutY="463.0" mnemonicParsing="false" onAction="#onHandleButtonLoad" text="Cargar">
          <font>
             <Font name="Old English Text MT" size="12.0" />
          </font></Button>
