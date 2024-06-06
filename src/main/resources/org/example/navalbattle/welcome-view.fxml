@@ -13,7 +13,6 @@
             </image>
       </ImageView>
       <Button layoutX="278.0" layoutY="212.0" mnemonicParsing="false" onAction="#onHandleButtonPlay" text="Jugar" />
-      <Button layoutX="266.0" layoutY="251.0" mnemonicParsing="false" text="Continuar" />
       <ImageView fitHeight="105.0" fitWidth="331.0" layoutX="135.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Battleship.png" />

@@ -139,5 +139,7 @@
             <Image url="@images/Battleship.png" />
          </image>
       </ImageView>
+      <Button layoutX="585.0" layoutY="463.0" mnemonicParsing="false" onAction="#onHandleButtonSaved" text="Guardar" />
+      <Button layoutX="770.0" layoutY="463.0" mnemonicParsing="false" onAction="#onHandleButtonLoad" text="Cargar" />
    </children>
 </AnchorPane>

@@ -18,7 +18,7 @@ import org.example.navalbattle.view.BoardBotStage;
 import org.example.navalbattle.view.GameStage;
 import org.example.navalbattle.view.WelcomeStage;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -295,5 +295,96 @@ public class GameController {
         imageView.setFitWidth(40);
         imageView.setImage(image);
         gridPane.add(imageView, col, row);
+    }
+
+    public void saveGameState(String filename) {
+        try (FileOutputStream fileOut = new FileOutputStream(filename);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(position);
+            out.writeObject(enemyBoard);
+            out.writeObject(fragatas);
+            out.writeObject(destructores);
+            out.writeObject(submarinos);
+            out.writeObject(portaAviones);
+            out.writeObject(portavionesCount);
+            out.writeObject(submarinosCount);
+            out.writeObject(destructoresCount);
+            out.writeObject(fragatasCount);
+            out.writeObject(enemyPortaAvion);
+            out.writeObject(enemySubmarino);
+            out.writeObject(enemyDestructor);
+            out.writeObject(enemyFragata);
+            // Serializa cualquier otro estado necesario
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+    public void loadGameState(String filename){
+        try (FileInputStream fileIn = new FileInputStream(filename);
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            position = (Position) in.readObject();
+            enemyBoard = (EnemyBoard) in.readObject();
+            fragatas = (int) in.readObject();
+            destructores = (int) in.readObject();
+            submarinos = (int) in.readObject();
+            portaAviones = (int) in.readObject();
+            portavionesCount = (int) in.readObject();
+            submarinosCount = (int) in.readObject();
+            destructoresCount = (int) in.readObject();
+            fragatasCount = (int) in.readObject();
+            enemyPortaAvion = (int) in.readObject();
+            enemySubmarino = (int) in.readObject();
+            enemyDestructor = (int) in.readObject();
+            enemyFragata = (int) in.readObject();
+            // Deserializa cualquier otro estado necesario
+            updateUI(); // Método para actualizar la UI con el estado deserializado
+        } catch (IOException | ClassNotFoundException i) {
+            i.printStackTrace();
+        }
+    }
+    public void updateUI() {
+        // Actualizar el GridPane de posición de barcos
+        refreshGridPane(positionGridPane, position.getMatriz());
+
+        // Actualizar el GridPane de disparos
+        refreshGridPane(shootGridpane, shootPosition.getMatriz());
+
+        // Actualizar etiquetas
+        labelPortaAviones.setText("Portaaviones: " + portavionesCount);
+        labelSubmarinos.setText("Submarinos: " + submarinosCount);
+        labelDestructores.setText("Destructores: " + destructoresCount);
+        labelFragatas.setText("Fragatas: " + fragatasCount);
+
+        // Actualizar la visibilidad de los botones basados en los conteos
+        buttonPortaAviones.setDisable(portavionesCount == 0);
+        buttonSubmarinos.setDisable(submarinosCount == 0);
+        buttonDestructores.setDisable(destructoresCount == 0);
+        buttonFragatas.setDisable(fragatasCount == 0);
+        startButton.setDisable(!(portavionesCount == 0 && submarinosCount == 0 && destructoresCount == 0 && fragatasCount == 0));
+    }
+
+    private void refreshGridPane(GridPane gridPane, int[][] matriz) {
+        gridPane.getChildren().clear();
+        for (int row = 0; row < matriz.length; row++) {
+            for (int col = 0; col < matriz[row].length; col++) {
+                ImageView imageView = new ImageView();
+                imageView.setFitHeight(40);
+                imageView.setFitWidth(40);
+                switch (matriz[row][col]) {
+                    case 1 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/fragata.png"));
+                    case 2 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/destructor.png"));
+                    case 3 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/submarino.png"));
+                    case 4 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/portaaviones.png"));
+                    default -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/water.png"));
+                }
+                gridPane.add(imageView, col, row);
+            }
+        }
+    }
+    public void onHandleButtonSaved(ActionEvent event) {
+        saveGameState("gameState.ser");
+    }
+    public void onHandleButtonLoad(ActionEvent event) {
+        loadGameState("gameState.ser");
     }
 }

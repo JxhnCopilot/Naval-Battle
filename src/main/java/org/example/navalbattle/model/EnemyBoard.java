@@ -1,11 +1,12 @@
 package org.example.navalbattle.model;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Represents the enemy's board in the naval battle game.
  */
-public class EnemyBoard {
+public class EnemyBoard implements Serializable{
     private static final int BOARD_SIZE = 10;
     private static final int WATER = 0;
     public static final int PORTAVIONES = 4;
@@ -28,7 +29,6 @@ public class EnemyBoard {
         }
         placeShips();
     }
-
     /**
      * Places all the ships on the board.
      */
@@ -73,6 +73,7 @@ public class EnemyBoard {
      * @param shipSize the size of the ship
      * @return true if the ship can be placed, false otherwise
      */
+
     private boolean canPlaceShip(int row, int col, boolean isHorizontal, int shipSize) {
         if (isHorizontal) {
             if (col + shipSize > BOARD_SIZE) {

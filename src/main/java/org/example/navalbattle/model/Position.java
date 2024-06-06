@@ -1,9 +1,11 @@
 package org.example.navalbattle.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a position on the naval battle game board.
  */
-public class Position {
+public class Position implements Serializable {
     private int row;
     private int col;
     private int length;
