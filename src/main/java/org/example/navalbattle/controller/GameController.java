@@ -23,6 +23,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The GameController class is responsible for managing the game logic.
+ * It handles user interactions and updates the game state accordingly.
+ */
 public class GameController {
     @FXML
     private GridPane positionGridPane, shootGridpane;
@@ -38,12 +42,21 @@ public class GameController {
     EnemyBoard enemyBoard = new EnemyBoard();
     int fragatas = 4, destructores = 6, submarinos = 6, portaAviones = 4;
 
-
+    /**
+     * This method is called after all @FXML annotated members have been injected.
+     * It adds an event to the positionGridPane.
+     */
     @FXML
     public void initialize() {
         addEvent(positionGridPane);
     }
 
+    /**
+     * Handles the start button click event.
+     * It makes the shootGridpane visible and hides other UI elements.
+     *
+     * @param event the action event
+     */
     public void onHandleButtonStart(ActionEvent event) {
         shootGridpane.setVisible(true);
         startButton.setVisible(false);
@@ -64,12 +77,27 @@ public class GameController {
         addEvent(shootGridpane);
     }
 
+    /**
+     * Handles the enemy board button click event.
+     * It shows the enemy board stage.
+     *
+     * @param event the action event
+     * @throws IOException if an I/O error occurs
+     */
     public void onHandleButtonEnemyBoard(ActionEvent event) throws IOException {
         BoardBotStage.getInstance().show();
     }
 
     private Position shootPosition = new Position(10, 10);
 
+    /**
+     * Handles the mouse click event on the game board.
+     * It updates the game state based on the clicked cell.
+     *
+     * @param event the mouse event
+     * @param row   the row of the clicked cell
+     * @param col   the column of the clicked cell
+     */
     public void handleMouseClick(MouseEvent event, int row, int col) {
         shootPosition.getMatriz()[row][col] = 1;
         ((ImageView) event.getSource()).setOnMouseClicked(null);
@@ -94,16 +122,30 @@ public class GameController {
         winnerVerification();
     }
 
+    /**
+     * Gets the number of rows from the rowTextField.
+     *
+     * @return the number of rows
+     */
     public int getRows() {
         return Integer.parseInt(rowTextField.getText());
     }
 
+    /**
+     * Gets the number of columns from the colTextField.
+     *
+     * @return the number of columns
+     */
     public int getCols() {
         return Integer.parseInt(colTextField.getText());
     }
 
     boolean isHorizontal = false;
 
+    /**
+     * Handles the orientation button click event.
+     * It toggles the orientation of the boat to be placed.
+     */
     public void onHandleButtonOrientation() {
         isHorizontal = !isHorizontal;
         if (!isHorizontal) {
@@ -123,6 +165,12 @@ public class GameController {
     private int destructoresCount = 3;
     private int fragatasCount = 4;
 
+    /**
+     * Adds a boat to the game board.
+     *
+     * @param boatSize the size of the boat
+     * @param button   the button that triggered the event
+     */
     public void addBoat(int boatSize, String button) {
         int fila = getRows();
         int columna = getCols();
@@ -174,6 +222,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the portaAviones button click event.
+     * It tries to add a portaAviones to the game board.
+     *
+     * @param event the action event
+     */
     public void onHandleButtonPortaAviones(Event event) {
         try {
             addBoat(PORTAAVIONES_SIZE, "portaAviones");
@@ -182,6 +236,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the submarinos button click event.
+     * It tries to add a submarinos to the game board.
+     *
+     * @param event the action event
+     */
     public void onHandleButtonSubmarinos(Event event) {
         try {
             addBoat(SUBMARINOS_SIZE, "submarinos");
@@ -190,6 +250,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the destructores button click event.
+     * It tries to add a destructores to the game board.
+     *
+     * @param event the action event
+     */
     public void onHandleButtonDestrutores(Event event) {
 
         try {
@@ -199,6 +265,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the fragatas button click event.
+     * It tries to add a fragatas to the game board.
+     *
+     * @param event the action event
+     */
     public void onHandleButtonFragatas(Event event) {
         try {
             addBoat(FRAGATAS_SIZE, "fragatas");
@@ -207,6 +279,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Adds an event to the given gridPane.
+     * It populates the gridPane with cells and assigns a mouse click event to each cell.
+     *
+     * @param gridPane the gridPane to add the event to
+     */
     public void addEvent(GridPane gridPane) {
         Image image = new Image("file:src/main/resources/org/example/navalbattle/images/water.png");
         for (int row = 0; row <= 9; row++) {
@@ -232,6 +310,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Verifies if there is a winner.
+     * It checks if all boats of a player have been destroyed and declares the other player as the winner.
+     */
     public void winnerVerification() {
         try {
             if (fragatas == 0 && destructores == 0 && submarinos == 0 && portaAviones == 0) {
@@ -253,6 +335,14 @@ public class GameController {
     int enemyFragata = 4, enemyDestructor = 6, enemySubmarino = 6, enemyPortaAvion = 4;
     Position enemyPosition = new Position(10, 10);
 
+    /**
+     * Simulates the computer's play.
+     * It randomly selects a cell to shoot and updates the game state accordingly.
+     */
+    /**
+     * Simulates the computer's play.
+     * It randomly selects a cell to shoot and updates the game state accordingly.
+     */
     public void computerPlay() {
         int row, col;
         do {
@@ -279,6 +369,13 @@ public class GameController {
         winnerVerification();
     }
 
+    /**
+     * Places an explosion image at the specified grid cell.
+     *
+     * @param row      the row of the cell
+     * @param col      the column of the cell
+     * @param gridPane the gridPane to add the image to
+     */
     public void putImageExplotion(int row, int col, GridPane gridPane) {
         Image image = new Image("file:src/main/resources/org/example/navalbattle/images/explotionIcon.gif");
         ImageView imageView = new ImageView();
@@ -288,6 +385,13 @@ public class GameController {
         gridPane.add(imageView, col, row);
     }
 
+    /**
+     * Places a fail image at the specified grid cell.
+     *
+     * @param row      the row of the cell
+     * @param col      the column of the cell
+     * @param gridPane the gridPane to add the image to
+     */
     public void putImageFail(int row, int col, GridPane gridPane) {
         Image image = new Image("file:src/main/resources/org/example/navalbattle/images/xIcon.png");
         ImageView imageView = new ImageView();
@@ -297,6 +401,11 @@ public class GameController {
         gridPane.add(imageView, col, row);
     }
 
+    /**
+     * Saves the current game state to a file.
+     *
+     * @param filename the name of the file to save to
+     */
     public void saveGameState(String filename) {
         try (FileOutputStream fileOut = new FileOutputStream(filename);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
@@ -319,7 +428,13 @@ public class GameController {
             i.printStackTrace();
         }
     }
-    public void loadGameState(String filename){
+
+    /**
+     * Loads a game state from a file.
+     *
+     * @param filename the name of the file to load from
+     */
+    public void loadGameState(String filename) {
         try (FileInputStream fileIn = new FileInputStream(filename);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             position = (Position) in.readObject();
@@ -342,20 +457,20 @@ public class GameController {
             i.printStackTrace();
         }
     }
+
+    /**
+     * Updates the UI based on the current game state.
+     */
     public void updateUI() {
-        // Actualizar el GridPane de posición de barcos
         refreshGridPane(positionGridPane, position.getMatriz());
 
-        // Actualizar el GridPane de disparos
         refreshGridPane(shootGridpane, shootPosition.getMatriz());
 
-        // Actualizar etiquetas
         labelPortaAviones.setText("Portaaviones: " + portavionesCount);
         labelSubmarinos.setText("Submarinos: " + submarinosCount);
         labelDestructores.setText("Destructores: " + destructoresCount);
         labelFragatas.setText("Fragatas: " + fragatasCount);
 
-        // Actualizar la visibilidad de los botones basados en los conteos
         buttonPortaAviones.setDisable(portavionesCount == 0);
         buttonSubmarinos.setDisable(submarinosCount == 0);
         buttonDestructores.setDisable(destructoresCount == 0);
@@ -363,6 +478,12 @@ public class GameController {
         startButton.setDisable(!(portavionesCount == 0 && submarinosCount == 0 && destructoresCount == 0 && fragatasCount == 0));
     }
 
+    /**
+     * Refreshes a gridPane based on a given matrix.
+     *
+     * @param gridPane the gridPane to refresh
+     * @param matriz   the matrix to base the refresh on
+     */
     private void refreshGridPane(GridPane gridPane, int[][] matriz) {
         gridPane.getChildren().clear();
         for (int row = 0; row < matriz.length; row++) {
@@ -371,19 +492,38 @@ public class GameController {
                 imageView.setFitHeight(40);
                 imageView.setFitWidth(40);
                 switch (matriz[row][col]) {
-                    case 1 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/fragata.png"));
-                    case 2 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/destructor.png"));
-                    case 3 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/submarino.png"));
-                    case 4 -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/portaaviones.png"));
-                    default -> imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/water.png"));
+                    case 1 ->
+                            imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/fragata.png"));
+                    case 2 ->
+                            imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/destructor.png"));
+                    case 3 ->
+                            imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/submarino.png"));
+                    case 4 ->
+                            imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/portaaviones.png"));
+                    default ->
+                            imageView.setImage(new Image("file:src/main/resources/org/example/navalbattle/images/water.png"));
                 }
                 gridPane.add(imageView, col, row);
             }
         }
     }
+
+    /**
+     * Handles the save button click event.
+     * It saves the current game state to a file.
+     *
+     * @param event the action event
+     */
     public void onHandleButtonSaved(ActionEvent event) {
         saveGameState("gameState.ser");
     }
+
+    /**
+     * Handles the load button click event.
+     * It loads a game state from a file.
+     *
+     * @param event the action event
+     */
     public void onHandleButtonLoad(ActionEvent event) {
         loadGameState("gameState.ser");
     }
